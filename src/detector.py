@@ -105,45 +105,17 @@ def descargar_modelo():
 
 def crear_detector(modo_video=True):
     """
-    Crea y retorna una instancia del detector facial
-    usando la nueva MediaPipe Tasks API (0.10+).
-
-    Descarga el modelo automáticamente si no existe.
-
-    Parámetros:
-        modo_video (bool):
-            True  → VIDEO mode: optimizado para secuencias de
-                    frames, el detector mantiene estado entre
-                    llamadas para un tracking más estable.
-            False → IMAGE mode: cada imagen se analiza de forma
-                    independiente, sin estado previo.
-
-    Retorna:
-        mediapipe.tasks.python.vision.FaceDetector:
-            Detector listo para usar con detect() o
-            detect_for_video().
-
-    NOTA EDUCATIVA — RunningMode:
-        La nueva Tasks API distingue explícitamente entre
-        tres modos de ejecución:
-            IMAGE      → imágenes independientes
-            VIDEO      → secuencias con timestamps
-            LIVE_STREAM → cámara en tiempo real (async)
-        Elegir el modo correcto mejora rendimiento y precisión.
-
-    Ejemplo de uso:
-        with crear_detector(modo_video=False) as detector:
-            caras = detectar_caras(imagen, detector)
+    Crea y retorna una instancia del detector facial.
+    Almacena el modo como atributo del objeto para
+    que detectar_caras() sepa cómo llamarlo.
     """
     descargar_modelo()
 
-    # Seleccionar el modo de ejecución según el tipo de entrada
     if modo_video:
         modo = mp_vision.RunningMode.VIDEO
     else:
         modo = mp_vision.RunningMode.IMAGE
 
-    # Configurar opciones del detector
     opciones = mp_vision.FaceDetectorOptions(
         base_options=mp_python.BaseOptions(
             model_asset_path=RUTA_MODELO
@@ -152,8 +124,14 @@ def crear_detector(modo_video=True):
         min_detection_confidence=DETECCION_CONFIANZA_MINIMA
     )
 
-    return mp_vision.FaceDetector.create_from_options(opciones)
+    detector = mp_vision.FaceDetector.create_from_options(opciones)
 
+    # ── Guardamos el modo como atributo extra ──────────────────
+    # La Tasks API no expone running_mode como atributo público,
+    # así que lo almacenamos manualmente para consultarlo después
+    detector._modo_video = modo_video
+
+    return detector
 
 # ─────────────────────────────────────────────
 #  DETECCIÓN DE CARAS EN UN FRAME/IMAGEN
@@ -208,9 +186,9 @@ def detectar_caras(frame, detector, numero_frame=0, fps=30):
         data=frame_rgb
     )
 
-    # ── Paso 3: Ejecutar detección según el modo ──────────────────
+# ── Paso 3: Ejecutar detección según el modo ──────────────────
     try:
-        if detector.running_mode == mp_vision.RunningMode.VIDEO:
+        if detector._modo_video:
             # Modo video: requiere timestamp en milisegundos
             timestamp_ms = int((numero_frame / fps) * 1000)
             resultado = detector.detect_for_video(mp_image, timestamp_ms)
