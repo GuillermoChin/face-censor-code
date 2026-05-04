@@ -303,7 +303,8 @@ def procesar_video(ruta_entrada, metodo, nombre_sticker=None):
                 cap, props["total_frames"], nombre
             ):
                 # ── Detectar caras en este frame ──────────────────
-                caras = detectar_caras(frame, detector)
+                # DESPUÉS
+                caras = detectar_caras(frame, detector, numero_frame, props["fps"])
 
                 if caras:
                     # ── Aplicar censura y contar ───────────────────
