@@ -1,0 +1,33 @@
+# ============================================================
+#  face-censor-code | requirements.txt
+#  Autor: Guillermo Chin — "el chico de las estrellas"
+#  Institución: ITESCAM | Campeche, México
+#  GitHub: https://github.com/GuillermoChin/face-censor-code
+#  Licencia: MIT — Libre uso con atribución
+# ------------------------------------------------------------
+#  INSTRUCCIONES DE INSTALACIÓN:
+#  Ejecuta este comando en la raíz del proyecto:
+#
+#    pip install -r requirements.txt
+#
+#  Se recomienda usar un entorno virtual:
+#    python -m venv venv
+#    venv\Scripts\activate      (Windows)
+#    source venv/bin/activate   (Mac/Linux)
+#    pip install -r requirements.txt
+# ============================================================
+
+# Lectura, escritura y procesamiento de imágenes y video
+opencv-python>=4.8.0
+
+# Detección facial con modelos preentrenados de Google
+mediapipe>=0.10.0
+
+# Operaciones matriciales sobre frames (píxeles como matrices)
+numpy>=1.24.0
+
+# Manejo de imágenes PNG con canal alfa (transparencia)
+Pillow>=10.0.0
+
+# Barra de progreso en consola para videos largos
+tqdm>=4.65.0
