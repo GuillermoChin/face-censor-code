@@ -37,7 +37,10 @@ import sys
 
 # Asegurar que Python encuentre los módulos del proyecto
 # cuando este archivo se ejecuta directamente desde /src
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+# DESPUÉS
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, BASE_DIR)
+sys.path.insert(0, os.path.join(BASE_DIR, "src"))
 
 from detector import crear_detector, detectar_caras
 from censores import aplicar_censura

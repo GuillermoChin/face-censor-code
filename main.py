@@ -34,7 +34,9 @@ import os
 import sys
 
 # ── Agregar la raíz del proyecto al path de Python ────────────
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, BASE_DIR)                        # para config.py
+sys.path.insert(0, os.path.join(BASE_DIR, "src"))   # para utils.py, detector.py, etc.
 
 from config import (
     RUTA_ENTRADAS,
