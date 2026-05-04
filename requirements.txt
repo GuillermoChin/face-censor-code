@@ -21,7 +21,7 @@
 opencv-python>=4.8.0
 
 # Detección facial con modelos preentrenados de Google
-mediapipe>=0.10.0
+mediapipe==0.10.35
 
 # Operaciones matriciales sobre frames (píxeles como matrices)
 numpy>=1.24.0
