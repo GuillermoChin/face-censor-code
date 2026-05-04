@@ -1,0 +1,21 @@
+# Carpetas de trabajo (contenido local, no va al repo)
+entradas/*
+salida/*
+recursos/*
+
+# Conservar las carpetas vacías en el repo
+!entradas/.gitkeep
+!salida/.gitkeep
+!recursos/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+
+# Sistema
+.DS_Store
+Thumbs.db
